@@ -1,0 +1,44 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual environment
+venv/
+env/
+
+# Jupyter Notebook checkpoints (if any)
+.ipynb_checkpoints/
+
+# Environment variables / secret keys
+env.env
+.env.*
+
+# IDE/editor-specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Flask-related
+instance/
+*.log
+
+# Local data & scraped data
+data/
+
+# Compiled files or packages
+*.egg-info/
+dist/
+build/
+
+# Pytest / Coverage
+.cache/
+coverage.*
+htmlcov/
