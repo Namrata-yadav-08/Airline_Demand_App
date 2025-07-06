@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Demand Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        button { margin-top: 10px; padding: 8px 12px; }
+        .flash-msg { color: green; margin: 15px 0; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<h1>Flight Demand Dashboard</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash-msg">
+      <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endwith %}
+
+<form action="/fetch" method="get">
+    <button type="submit">🔄 Fetch Latest Flights</button>
+</form>
+
+<form method="POST">
+    <label for="origin">Select Origin City:</label>
+    <select name="origin" id="origin">
+        <option value="">-- All --</option>
+        {% for city in origin_options %}
+            <option value="{{ city }}" {% if city == selected_origin %}selected{% endif %}>{{ city }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<h2>Flight Routes</h2>
+<table>
+    <tr>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Price</th>
+        <th>Demand Score</th>
+    </tr>
+    {% for row in data %}
+    <tr>
+        <td>{{ row.origin }}</td>
+        <td>{{ row.destination }}</td>
+        <td>${{ row.price }}</td>
+        <td>{{ row.demand_score }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Demand Chart</h2>
+<canvas id="demandChart" width="600" height="300"></canvas>
+
+<h2>🔝 Top 5 Popular Routes</h2>
+<table>
+    <tr>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th># of Searches</th>
+    </tr>
+    {% for route in popular_routes %}
+    <tr>
+        <td>{{ route.origin }}</td>
+        <td>{{ route.destination }}</td>
+        <td>{{ route.count }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<form method="POST" action="/submit">
+    <input type="hidden" name="origin" value="{{ selected_origin }}">
+    <button type="submit">📤 Submit to API</button>
+</form>
+
+<script>
+    const labels = JSON.parse('{{ chart_labels | tojson | safe }}');
+    const values = JSON.parse('{{ chart_values | tojson | safe }}');
+    const ctx = document.getElementById('demandChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Demand Score by Destination',
+                data: values,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
