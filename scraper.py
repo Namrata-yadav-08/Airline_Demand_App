@@ -47,4 +47,4 @@ if __name__ == "__main__":
         save_to_csv()
     except Exception as e:
         print("🔥 ERROR in scraper.py:", str(e))
-        # raise 
+        raise 
