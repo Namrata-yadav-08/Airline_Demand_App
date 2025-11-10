@@ -9,7 +9,8 @@ load_dotenv()
 username = os.getenv("OPENSKY_USERNAME")
 password = os.getenv("OPENSKY_PASSWORD")
 
-bbox = (-44.0, -10.0, 113.0, 154.0)  
+# bbox = (-44.0, -10.0, 113.0, 154.0)  
+bbox = (-90, 90, -180, 180)
 
 def fetch_live_flights_over_aus():
     api = OpenSkyApi(username,password)
