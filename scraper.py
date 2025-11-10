@@ -1,12 +1,18 @@
 from opensky_api import OpenSkyApi
+from dotenv import load_dotenv
 import pandas as pd
 import random
 import os
 
+load_dotenv()
+
+username = os.getenv("OPENSKY_USERNAME")
+password = os.getenv("OPENSKY_PASSWORD")
+
 bbox = (-44.0, -10.0, 113.0, 154.0)  
 
 def fetch_live_flights_over_aus():
-    api = OpenSkyApi()
+    api = OpenSkyApi(username,password)
     print("Fetching live flight data over Australia...")
 
     states = api.get_states(bbox=bbox)

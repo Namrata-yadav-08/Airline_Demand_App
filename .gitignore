@@ -15,6 +15,7 @@ env/
 # Environment variables / secret keys
 env.env
 .env.*
+.env
 
 # IDE/editor-specific
 .vscode/
