@@ -9,8 +9,7 @@ load_dotenv()
 username = os.getenv("OPENSKY_USERNAME")
 password = os.getenv("OPENSKY_PASSWORD")
 
-# bbox = (-44.0, -10.0, 113.0, 154.0)  
-bbox = (-90, 90, -180, 180)
+bbox = (-44.0, -10.0, 113.0, 154.0)  
 
 def fetch_live_flights_over_aus():
     api = OpenSkyApi(username,password)
@@ -48,4 +47,4 @@ if __name__ == "__main__":
         save_to_csv()
     except Exception as e:
         print("🔥 ERROR in scraper.py:", str(e))
-        raise 
+        # raise 
